@@ -1,22 +1,7 @@
-/* src/index.css */
+@import "tailwindcss";
 
-* {
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
+/* Jika Anda punya CSS tambahan untuk layout full screen, biarkan di bawah ini */
+html, body, #root {
   height: 100%;
-}
-
-/* Mengubah id root bawaan Vite agar memenuhi layar */
-#root {
   width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  max-width: 100%; /* Menimpa max-width bawaan Vite */
-  text-align: left; /* Mengembalikan perataan teks ke kiri */
 }

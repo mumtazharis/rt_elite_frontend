@@ -1,13 +1,15 @@
 // src/App.tsx
 import { useState } from 'react';
 import Cookies from 'js-cookie'; // Import js-cookie
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import Login from './components/Login/Login';
+import ResidentList from './components/Residents/ResidentList';
+import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => Boolean(Cookies.get('access_token')));
 
-  // Fungsi Logout
   // Fungsi Logout
   const handleLogout = async () => {
     try {
@@ -43,20 +45,26 @@ function App() {
   }
 
   return (
-    <Layout>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>Selamat Datang di RT Elite!</h1>
-        <button 
-          onClick={handleLogout} 
-          style={{ padding: '8px 16px', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-        >
-          Logout
-        </button>
-      </div>
-      <p>
-        Anda telah berhasil masuk. Token Anda sekarang disimpan dengan aman di <strong>Cookies</strong>.
-      </p>
-    </Layout>
+    <Router>
+      <Layout onLogout={handleLogout}>
+        <Routes>
+          {/* Default Route: Redirect ke /dashboard jika url hanya / */}
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
+          
+          {/* Daftar Halaman */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/warga" element={<ResidentList />} />
+          
+          {/* Route halaman yang belum dibuat */}
+          <Route path="/keuangan" element={<div>Halaman Keuangan (Segera Hadir)</div>} />
+          <Route path="/kegiatan" element={<div>Halaman Kegiatan (Segera Hadir)</div>} />
+          <Route path="/pengaturan" element={<div>Halaman Pengaturan (Segera Hadir)</div>} />
+          
+          {/* Halaman 404 jika URL tidak ditemukan */}
+          <Route path="*" element={<div className="text-center mt-10 text-xl font-bold">404 - Halaman Tidak Ditemukan</div>} />
+        </Routes>
+      </Layout>
+    </Router>
   );
 }
 
