@@ -8,17 +8,16 @@ interface SidebarProps {
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   // Fungsi kecil untuk mengatur warna menu yang aktif
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
-    `block px-4 py-2 rounded-md font-medium transition-colors ${
-      isActive
-        ? 'bg-slate-200 text-blue-700' // Warna saat menu aktif
-        : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900' // Warna default
+    `block px-4 py-2 rounded-md font-medium transition-colors ${isActive
+      ? 'bg-slate-200 text-blue-700' // Warna saat menu aktif
+      : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900' // Warna default
     }`;
 
   return (
     <>
       {/* Overlay for mobile */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-20 md:hidden"
           onClick={onClose}
         />
@@ -42,7 +41,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/keuangan" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+            <NavLink to="/rumah" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
               Data Rumah
             </NavLink>
           </li>

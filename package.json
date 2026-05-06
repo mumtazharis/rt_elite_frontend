@@ -17,6 +17,8 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-router-dom": "^7.14.2",
+    "react-select": "^5.10.2",
+    "react-select-async-paginate": "^0.7.11",
     "sweetalert2": "^11.26.24"
   },
   "devDependencies": {

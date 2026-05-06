@@ -16,6 +16,7 @@ interface TanStackTableProps<T extends object> {
   setPagination: React.Dispatch<React.SetStateAction<PaginationState>>;
   globalFilter: string;
   setGlobalFilter: React.Dispatch<React.SetStateAction<string>>;
+  getRowClass?: (row: T) => string;
 }
 
 const TanStackTable = <T extends object>({
@@ -27,6 +28,7 @@ const TanStackTable = <T extends object>({
   setPagination,
   globalFilter,
   setGlobalFilter,
+  getRowClass,
 }: TanStackTableProps<T>) => {
   
   // Inisialisasi TanStack Table
@@ -101,7 +103,10 @@ const TanStackTable = <T extends object>({
               </tr>
             ) : (
               table.getRowModel().rows.map(row => (
-                <tr key={row.id} className="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                <tr 
+                  key={row.id} 
+                  className={`border-b border-slate-100 hover:bg-slate-50 transition-colors ${getRowClass ? getRowClass(row.original) : ''}`}
+                >
                   {row.getVisibleCells().map(cell => (
                     <td key={cell.id} className="px-6 py-4">
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}

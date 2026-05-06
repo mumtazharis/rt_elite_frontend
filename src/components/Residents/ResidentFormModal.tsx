@@ -3,9 +3,9 @@ import React from 'react';
 import { X } from "lucide-react";
 
 export interface ResidentFormData {
+  nik: string;
   full_name: string;
   phone_number: string;
-  status: string;
   marriage_status: string;
   ktp: File | null;
   hasCurrentKtp: boolean;
@@ -77,6 +77,16 @@ const ResidentFormModal: React.FC<ResidentFormModalProps> = ({
               {/* 2 Column Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
+                  <label className="text-sm font-semibold text-slate-700">NIK</label>
+                  <input 
+                    type="text"
+                    value={formData.nik}
+                    onChange={(e) => setFormData({...formData, nik: e.target.value})}
+                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                    required
+                  />
+                </div>
+                <div className="space-y-1">
                   <label className="text-sm font-semibold text-slate-700">Nama Lengkap</label>
                   <input 
                     type="text"
@@ -95,18 +105,6 @@ const ResidentFormModal: React.FC<ResidentFormModalProps> = ({
                     className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
                     required
                   />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-sm font-semibold text-slate-700">Status Warga</label>
-                  <select 
-                    value={formData.status}
-                    onChange={(e) => setFormData({...formData, status: e.target.value})}
-                    className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
-                    required
-                  >
-                    <option value="tetap">Tetap</option>
-                    <option value="kontrak">Kontrak</option>
-                  </select>
                 </div>
                 <div className="space-y-1">
                   <label className="text-sm font-semibold text-slate-700">Status Pernikahan</label>

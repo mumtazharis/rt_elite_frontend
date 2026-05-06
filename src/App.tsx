@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Layout from './components/Layout/Layout';
 import Login from './components/Login/Login';
 import ResidentList from './components/Residents/ResidentList';
+import ResidenceList from './components/Residence/ResidenceList';
+import ResidenceDetail from './components/Residence/ResidenceDetail';
 import Dashboard from './components/Dashboard/Dashboard';
 
 function App() {
@@ -34,7 +36,7 @@ function App() {
       // 3. Pastikan data lokal selalu dihapus, terlepas dari API berhasil atau gagal (misal: internet putus)
       Cookies.remove('access_token');
       localStorage.removeItem('user_data');
-      
+
       // 4. Kembalikan ke halaman login
       setIsAuthenticated(false);
     }
@@ -50,16 +52,17 @@ function App() {
         <Routes>
           {/* Default Route: Redirect ke /dashboard jika url hanya / */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          
+
           {/* Daftar Halaman */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/warga" element={<ResidentList />} />
-          
+
           {/* Route halaman yang belum dibuat */}
-          <Route path="/keuangan" element={<div>Halaman Keuangan (Segera Hadir)</div>} />
+          <Route path="/rumah" element={<ResidenceList />} />
+          <Route path="/rumah/:id" element={<ResidenceDetail />} />
           <Route path="/kegiatan" element={<div>Halaman Kegiatan (Segera Hadir)</div>} />
           <Route path="/pengaturan" element={<div>Halaman Pengaturan (Segera Hadir)</div>} />
-          
+
           {/* Halaman 404 jika URL tidak ditemukan */}
           <Route path="*" element={<div className="text-center mt-10 text-xl font-bold">404 - Halaman Tidak Ditemukan</div>} />
         </Routes>

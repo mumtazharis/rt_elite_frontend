@@ -12,11 +12,12 @@ import ResidentFormModal, { type ResidentFormData } from './ResidentFormModal';
 
 interface Resident {
   id: number;
+  nik: string;
   ktp: boolean;
   full_name: string;
   phone_number: string;
-  status: string;
   marriage_status: string;
+  is_active: boolean;
 }
 
 // Interface untuk state Modal KTP
@@ -68,9 +69,9 @@ const ResidentList = () => {
 
   const [selectedResidentId, setSelectedResidentId] = useState<number | null>(null);
   const [formData, setFormData] = useState<ResidentFormData>({
+    nik: '',
     full_name: '',
     phone_number: '',
-    status: 'tetap',
     marriage_status: 'belum_menikah',
     ktp: null,
     hasCurrentKtp: false,
@@ -167,9 +168,9 @@ const ResidentList = () => {
   const handleAdd = () => {
     setSelectedResidentId(null);
     setFormData({
+      nik: '',
       full_name: '',
       phone_number: '',
-      status: 'tetap',
       marriage_status: 'belum_menikah',
       ktp: null,
       hasCurrentKtp: false,
@@ -218,9 +219,9 @@ const ResidentList = () => {
       }
 
       setFormData({
+        nik: result.nik || '',
         full_name: result.full_name || '',
         phone_number: result.phone_number || '',
-        status: result.status || 'tetap',
         marriage_status: result.marriage_status || 'belum_menikah',
         ktp: null,
         hasCurrentKtp: !!result.ktp,
@@ -251,9 +252,9 @@ const ResidentList = () => {
         submitData.append('_method', 'PUT');
       }
 
+      submitData.append('nik', formData.nik);
       submitData.append('full_name', formData.full_name);
       submitData.append('phone_number', formData.phone_number);
-      submitData.append('status', formData.status);
       submitData.append('marriage_status', formData.marriage_status);
       
       if (formData.ktp) {
@@ -307,8 +308,55 @@ const ResidentList = () => {
     setFormModal({ ...formModal, isOpen: false, isSaving: false, error: null });
   };
 
+  const handleDeactivate = async (residentId: number) => {
+    const result = await Swal.fire({
+      title: 'Nonaktifkan Warga?',
+      text: 'Warga yang dinonaktifkan tidak dapat diedit lagi.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#ef4444',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: 'Ya, Nonaktifkan',
+      cancelButtonText: 'Batal'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const token = Cookies.get('access_token');
+        const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+        const response = await fetch(`${apiUrl}/api/residents/${residentId}/deactivate`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        });
+
+        const resultData = await response.json();
+
+        if (!response.ok) throw new Error(resultData.message || 'Gagal menonaktifkan warga');
+
+        setRefreshTrigger(prev => prev + 1);
+        Swal.fire({
+          icon: 'success',
+          title: 'Berhasil!',
+          text: 'Warga telah dinonaktifkan.',
+          confirmButtonColor: '#2563eb',
+        });
+      } catch (error: any) {
+        Swal.fire('Gagal', error.message, 'error');
+      }
+    }
+  };
+
   // Definisikan Kolom
   const columns: ColumnDef<Resident>[] = [
+    {
+      accessorKey: 'nik',
+      header: 'NIK',
+      cell: (info) => info.getValue() || '-', 
+    },
     {
       accessorKey: 'full_name',
       header: 'Nama Lengkap',
@@ -327,10 +375,12 @@ const ResidentList = () => {
       )
     },
     {
-      accessorKey: 'status',
-      header: 'Status Warga',
+      accessorKey: 'is_active',
+      header: 'Status',
       cell: (info) => (
-        <span className="capitalize">{String(info.getValue()).replace('_', ' ')}</span>
+        <span className={`px-2 py-1 rounded-full text-xs font-semibold ${info.getValue() ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          {info.getValue() ? 'Aktif' : 'Non-Aktif'}
+        </span>
       )
     },
     {
@@ -357,14 +407,22 @@ const ResidentList = () => {
     {
       id: 'actions',
       header: 'Aksi',
-      cell: ({ row }) => (
-        <button 
-          onClick={() => handleEdit(row.original.id)}
-          className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition-colors text-sm font-medium"
-        >
-          Edit
-        </button>
-      ),
+      cell: ({ row }) => row.original.is_active ? (
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => handleEdit(row.original.id)}
+            className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition-colors text-sm font-medium"
+          >
+            Edit
+          </button>
+          <button 
+            onClick={() => handleDeactivate(row.original.id)}
+            className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition-colors text-sm font-medium"
+          >
+            Nonaktifkan
+          </button>
+        </div>
+      ) : null,
     },
   ];
 
@@ -390,6 +448,7 @@ const ResidentList = () => {
         setPagination={setPagination}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
+        getRowClass={(row) => !row.is_active ? 'opacity-60 bg-slate-50 grayscale-[0.5]' : ''}
       />
 
       <ResidentFormModal 
