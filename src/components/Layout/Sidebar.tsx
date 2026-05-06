@@ -1,4 +1,6 @@
-import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -6,11 +8,19 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
-  // Fungsi kecil untuk mengatur warna menu yang aktif
+  const location = useLocation();
+  const [isIuranOpen, setIsIuranOpen] = useState(location.pathname.startsWith('/iuran'));
+
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 rounded-md font-medium transition-colors ${isActive
-      ? 'bg-slate-200 text-blue-700' // Warna saat menu aktif
-      : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900' // Warna default
+      ? 'bg-slate-200 text-blue-700'
+      : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
+    }`;
+
+  const subNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `block px-4 py-1.5 rounded-md text-sm font-medium transition-colors pl-8 ${isActive
+      ? 'bg-slate-100 text-blue-600'
+      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
     }`;
 
   return (
@@ -46,13 +56,38 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/kegiatan" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
-              Iuran
-            </NavLink>
+            <button 
+              onClick={() => setIsIuranOpen(!isIuranOpen)}
+              className={`w-full flex items-center justify-between px-4 py-2 rounded-md font-medium transition-colors ${
+                location.pathname.startsWith('/iuran') ? 'bg-slate-200 text-blue-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
+              }`}
+            >
+              <span>Iuran</span>
+              {isIuranOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            {isIuranOpen && (
+              <ul className="mt-1 space-y-1 ml-4 border-l border-slate-200">
+                <li>
+                  <NavLink to="/iuran/setting" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Setting Jadwal
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/iuran/tagihan" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Tagihan
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/iuran/pembayaran" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Pembayaran
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
-            <NavLink to="/pengaturan" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
-              Pengaturan
+            <NavLink to="/keuangan" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+              Keuangan
             </NavLink>
           </li>
         </ul>

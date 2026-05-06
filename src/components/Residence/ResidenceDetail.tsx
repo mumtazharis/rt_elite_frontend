@@ -207,7 +207,7 @@ const ResidenceDetail = () => {
       header: 'Kepala Rumah',
       cell: (info) => {
         const val = info.getValue();
-        return (val === true || val === 1 || val === "1") ? (
+        return (val === true || val === 1) ? (
           <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-bold">Ya</span>
         ) : (
           <span className="text-slate-400 text-xs">-</span>
@@ -219,7 +219,7 @@ const ResidenceDetail = () => {
       header: 'Status',
       cell: (info) => {
         const val = info.getValue();
-        return (val === true || val === 1 || val === "1") ? (
+        return (val === true || val === 1) ? (
           <span className="text-green-600 font-medium">Aktif</span>
         ) : (
           <span className="text-slate-400 font-medium">Non-Aktif</span>
@@ -242,7 +242,7 @@ const ResidenceDetail = () => {
       cell: ({ row }) => {
         const isPrimary = row.original.is_primary_resident;
         const val = row.original.is_active;
-        const isActive = (val === true || val === 1 || val === "1");
+        const isActive = (val === true || val === 1);
 
         if (isActive) {
           return (
@@ -310,7 +310,7 @@ const ResidenceDetail = () => {
         setPagination={setPagination}
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
-        getRowClass={(row) => !(row.is_active === true || row.is_active === 1 || row.is_active === "1") ? 'opacity-60 bg-slate-50/50 grayscale-[0.5]' : ''}
+        getRowClass={(row) => !(row.is_active === true || row.is_active === 1) ? 'opacity-60 bg-slate-50/50 grayscale-[0.5]' : ''}
       />
 
       {id && (

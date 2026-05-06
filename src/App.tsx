@@ -8,6 +8,9 @@ import ResidentList from './components/Residents/ResidentList';
 import ResidenceList from './components/Residence/ResidenceList';
 import ResidenceDetail from './components/Residence/ResidenceDetail';
 import Dashboard from './components/Dashboard/Dashboard';
+import FeeSettingList from './components/Fee/Setting/FeeSettingList';
+import FeeList from './components/Fee/Fee/FeeList';
+import PaymentList from './components/Fee/Payment/PaymentList';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => Boolean(Cookies.get('access_token')));
@@ -56,12 +59,13 @@ function App() {
           {/* Daftar Halaman */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/warga" element={<ResidentList />} />
-
-          {/* Route halaman yang belum dibuat */}
           <Route path="/rumah" element={<ResidenceList />} />
           <Route path="/rumah/:id" element={<ResidenceDetail />} />
-          <Route path="/kegiatan" element={<div>Halaman Kegiatan (Segera Hadir)</div>} />
-          <Route path="/pengaturan" element={<div>Halaman Pengaturan (Segera Hadir)</div>} />
+          {/* Route halaman yang belum dibuat */}
+          <Route path="/iuran/setting" element={<FeeSettingList />} />
+          <Route path="/iuran/tagihan" element={<FeeList />} />
+          <Route path="/iuran/pembayaran" element={<PaymentList />} />
+          <Route path="/keuangan" element={<div>Halaman Keuangan (Segera Hadir)</div>} />
 
           {/* Halaman 404 jika URL tidak ditemukan */}
           <Route path="*" element={<div className="text-center mt-10 text-xl font-bold">404 - Halaman Tidak Ditemukan</div>} />
