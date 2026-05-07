@@ -411,7 +411,7 @@ const ResidentList = () => {
         <div className="flex items-center gap-2">
           <button 
             onClick={() => handleEdit(row.original.id)}
-            className="bg-teal-100 text-teal-700 px-3 py-1 rounded hover:bg-teal-200 transition-colors text-sm font-medium"
+            className="bg-teal-100 text-teal-700 px-3 py-1 rounded hover:bg-teal-200 transition-colors text-sm font-medium flex items-center gap-2"
           >
             <Edit size={14} />
             Edit

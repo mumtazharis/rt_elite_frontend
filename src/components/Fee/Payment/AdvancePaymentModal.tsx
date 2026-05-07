@@ -4,12 +4,6 @@ import { X, Calendar, Hash, Home, Receipt, CheckCircle } from "lucide-react";
 import Cookies from 'js-cookie';
 import { AsyncPaginate } from 'react-select-async-paginate';
 
-interface Residence {
-  id: number;
-  house_number: string;
-  is_active: boolean;
-}
-
 interface FeeSetting {
   id: number;
   name: string;

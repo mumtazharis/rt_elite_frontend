@@ -104,7 +104,7 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                 />
               </div>
 
-              {!mode === 'edit' && (
+              {mode !== 'edit' && (
                 <div className="bg-teal-50 p-3 rounded-md text-xs text-teal-700 italic">
                   * Tagihan akan langsung dibuat untuk seluruh rumah yang memiliki penghuni aktif.
                 </div>

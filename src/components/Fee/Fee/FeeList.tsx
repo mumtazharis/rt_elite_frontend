@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../../Common/TanStackTable';
-import { Plus, Edit, Trash2, Eye, TrendingUp, PlusCircle } from 'lucide-react';
+import { Edit, Trash2, Eye, PlusCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
 import FeeFormModal, { type FeeFormData } from './FeeFormModal';
 import FeeDetailModal from './FeeDetailModal';
