@@ -30,10 +30,10 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
     is_primary_resident: false,
     move_in_date: new Date().toISOString().split('T')[0],
   });
-  
+
   // State untuk menyimpan label yang terpilih agar tetap muncul di select
   const [selectedResident, setSelectedResident] = useState<any>(null);
-  
+
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -44,13 +44,13 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
     try {
       const token = Cookies.get('access_token');
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
-      
+
       const response = await fetch(`${apiUrl}/api/residents-select?q=${searchQuery}&page=${page}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      
+
       const result = await response.json();
-      
+
       return {
         options: result.data,
         hasMore: result.has_more,
@@ -107,8 +107,8 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
         {/* Header */}
         <div className="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
           <h3 className="text-lg font-bold text-slate-800">Tambah Penghuni</h3>
-          <button 
-            onClick={onClose} 
+          <button
+            onClick={onClose}
             className="text-slate-400 hover:text-red-500 transition-colors p-1"
           >
             <X size={24} />
@@ -147,7 +147,7 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
             <select
               value={formData.occupant_type}
               onChange={(e) => setFormData({ ...formData, occupant_type: e.target.value as any })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all"
               required
             >
               <option value="tetap">Tetap</option>
@@ -161,7 +161,7 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
               type="date"
               value={formData.move_in_date}
               onChange={(e) => setFormData({ ...formData, move_in_date: e.target.value })}
-              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+              className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all"
               required
             />
           </div>
@@ -172,7 +172,7 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
               id="is_primary"
               checked={formData.is_primary_resident}
               onChange={(e) => setFormData({ ...formData, is_primary_resident: e.target.checked })}
-              className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
+              className="w-4 h-4 text-teal-600 border-slate-300 rounded focus:ring-teal-500"
             />
             <label htmlFor="is_primary" className="text-sm font-medium text-slate-700 cursor-pointer">
               Set sebagai Penghuni Utama
@@ -187,18 +187,17 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
               className="bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded font-medium hover:bg-slate-50 transition-colors"
               disabled={isSaving}
             >
-              <X size={16} />
               Batal
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white px-6 py-2 rounded font-medium hover:bg-blue-700 transition-colors shadow-sm disabled:bg-blue-400"
+              className="bg-teal-600 text-white px-6 py-2 rounded font-medium hover:bg-teal-700 transition-colors shadow-sm disabled:bg-teal-400 flex items-center gap-2"
               disabled={isSaving || !formData.resident_id}
             >
               {isSaving ? 'Menyimpan...' : (
                 <>
                   <Save size={18} />
-                  Simpan Penghuni
+                  Simpan
                 </>
               )}
             </button>

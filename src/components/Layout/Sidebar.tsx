@@ -14,13 +14,13 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 rounded-md font-medium transition-colors ${isActive
-      ? 'bg-slate-200 text-blue-700'
+      ? 'bg-slate-200 text-teal-700'
       : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
     }`;
 
   const subNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-1.5 rounded-md text-sm font-medium transition-colors pl-8 ${isActive
-      ? 'bg-slate-100 text-blue-600'
+      ? 'bg-slate-100 text-teal-600'
       : 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
     }`;
 
@@ -60,7 +60,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <button 
               onClick={() => setIsIuranOpen(!isIuranOpen)}
               className={`w-full flex items-center justify-between px-4 py-2 rounded-md font-medium transition-colors ${
-                location.pathname.startsWith('/iuran') ? 'bg-slate-200 text-blue-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
+                location.pathname.startsWith('/iuran') ? 'bg-slate-200 text-teal-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
               }`}
             >
               <span>Iuran</span>
@@ -90,7 +90,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             <button 
               onClick={() => setIsKeuanganOpen(!isKeuanganOpen)}
               className={`w-full flex items-center justify-between px-4 py-2 rounded-md font-medium transition-colors ${
-                location.pathname.startsWith('/keuangan') ? 'bg-slate-200 text-blue-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
+                location.pathname.startsWith('/keuangan') ? 'bg-slate-200 text-teal-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
               }`}
             >
               <span>Keuangan</span>

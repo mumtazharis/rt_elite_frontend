@@ -155,8 +155,8 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
           <div className="flex items-center gap-2">
-            <div className="bg-blue-100 p-2 rounded-lg">
-              <Receipt className="text-blue-600" size={20} />
+            <div className="bg-teal-100 p-2 rounded-lg">
+              <Receipt className="text-teal-600" size={20} />
             </div>
             <div>
               <h3 className="text-lg font-bold text-slate-800">Bayar Dimuka</h3>
@@ -176,7 +176,7 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
         <div className="p-6 overflow-y-auto max-h-[75vh]">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-              <div className="animate-spin h-10 w-10 mb-4 border-4 border-blue-600 border-t-transparent rounded-full"></div>
+              <div className="animate-spin h-10 w-10 mb-4 border-4 border-teal-600 border-t-transparent rounded-full"></div>
               <span className="text-sm font-medium">Memuat data pilihan...</span>
             </div>
           ) : (
@@ -219,7 +219,7 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
                 <select 
                   value={formData.fee_setting_id}
                   onChange={(e) => setFormData({...formData, fee_setting_id: e.target.value})}
-                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                  className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-all text-sm font-medium"
                   required
                 >
                   <option value="">-- Pilih Jenis Iuran --</option>
@@ -241,7 +241,7 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
                     max="24"
                     value={formData.number_of_periods}
                     onChange={(e) => setFormData({...formData, number_of_periods: parseInt(e.target.value) || 1})}
-                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-all text-sm font-medium"
                     required
                   />
                   <p className="text-[10px] text-slate-500 font-medium">* Maksimal 24 periode</p>
@@ -255,14 +255,14 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
                     type="date"
                     value={formData.payment_date}
                     onChange={(e) => setFormData({...formData, payment_date: e.target.value})}
-                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition-all text-sm font-medium"
+                    className="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 focus:outline-none transition-all text-sm font-medium"
                     required
                   />
                 </div>
               </div>
 
-              <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
-                <p className="text-xs text-blue-700 leading-relaxed font-medium">
+              <div className="p-4 bg-teal-50 border border-teal-100 rounded-xl">
+                <p className="text-xs text-teal-700 leading-relaxed font-medium">
                   <strong>Info:</strong> Pembayaran ini akan otomatis men-generate tagihan untuk {formData.number_of_periods} periode (sesuai jadwal iuran) dan langsung menandainya sebagai lunas.
                 </p>
               </div>
@@ -283,7 +283,7 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
           <button 
             type="submit"
             form="advancePaymentForm"
-            className="bg-blue-600 text-white px-8 py-2.5 rounded-lg font-bold text-sm hover:bg-blue-700 active:transform active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-blue-200 disabled:bg-blue-400 disabled:shadow-none"
+            className="bg-teal-600 text-white px-8 py-2.5 rounded-lg font-bold text-sm hover:bg-teal-700 active:transform active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-teal-200 disabled:bg-teal-400 disabled:shadow-none"
             disabled={isSaving || isLoading}
           >
             {isSaving ? (

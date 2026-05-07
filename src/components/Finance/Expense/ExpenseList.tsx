@@ -236,7 +236,7 @@ const ExpenseList = () => {
         return (
           <div className="flex flex-col">
             <span className="font-semibold text-slate-800">{String(info.getValue())}</span>
-            <span className="text-[10px] text-blue-500 uppercase tracking-wider font-bold mt-1">Manual</span>
+            <span className="text-[10px] text-teal-500 uppercase tracking-wider font-bold mt-1">Manual</span>
           </div>
         );
       }, 
@@ -288,14 +288,14 @@ const ExpenseList = () => {
                   type="date" 
                   value={dateFrom}
                   onChange={(e) => setDateFrom(e.target.value)}
-                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-blue-400"
+                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-teal-400"
               />
               <span className="text-slate-400 text-sm">-</span>
               <input 
                   type="date" 
                   value={dateTo}
                   onChange={(e) => setDateTo(e.target.value)}
-                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-blue-400"
+                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-teal-400"
               />
               {(dateFrom || dateTo) && (
                    <button 

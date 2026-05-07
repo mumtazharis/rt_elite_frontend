@@ -55,7 +55,7 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
         <div className="p-6 overflow-y-auto max-h-[70vh]">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center py-12 text-slate-500">
-              <svg className="animate-spin h-8 w-8 mb-4 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-8 w-8 mb-4 text-teal-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -76,7 +76,7 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
                   placeholder="Contoh: Iuran Perbaikan Lampu Jalan"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all"
                   required
                 />
               </div>
@@ -88,7 +88,7 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                   value={formData.amount}
                   onChange={(e) => setFormData({...formData, amount: e.target.value})}
                   placeholder="Masukkan nominal"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all"
                   required
                 />
               </div>
@@ -99,13 +99,13 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                   type="date"
                   value={formData.due_date}
                   onChange={(e) => setFormData({...formData, due_date: e.target.value})}
-                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:outline-none transition-all"
                   required
                 />
               </div>
 
               {!mode === 'edit' && (
-                <div className="bg-blue-50 p-3 rounded-md text-xs text-blue-700 italic">
+                <div className="bg-teal-50 p-3 rounded-md text-xs text-teal-700 italic">
                   * Tagihan akan langsung dibuat untuk seluruh rumah yang memiliki penghuni aktif.
                 </div>
               )}
@@ -126,7 +126,7 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
           <button 
             type="submit"
             form="feeForm"
-            className="bg-blue-600 text-white px-6 py-2 rounded font-medium hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm disabled:bg-blue-400"
+            className="bg-teal-600 text-white px-6 py-2 rounded font-medium hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm disabled:bg-teal-400"
             disabled={isSaving || isLoading}
           >
             {isSaving ? (

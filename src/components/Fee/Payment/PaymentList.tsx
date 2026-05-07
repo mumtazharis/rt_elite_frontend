@@ -179,7 +179,7 @@ const PaymentList = () => {
             <Receipt size={14} className="text-slate-400" />
             <span>{row.original.fee.name}</span>
           </div>
-          <span className="text-xs font-bold text-blue-600">{formatCurrency(row.original.fee.amount)}</span>
+          <span className="text-xs font-bold text-teal-600">{formatCurrency(row.original.fee.amount)}</span>
         </div>
       ),
     },
@@ -239,7 +239,7 @@ const PaymentList = () => {
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setIsAdvanceModalOpen(true)}
-            className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition-all text-sm shadow-md shadow-blue-100"
+            className="flex items-center gap-2 bg-teal-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-teal-700 transition-all text-sm shadow-md shadow-teal-100"
           >
             <PlusCircle size={18} />
             Bayar Dimuka

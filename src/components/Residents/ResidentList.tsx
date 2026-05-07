@@ -393,7 +393,7 @@ const ResidentList = () => {
           return (
             <button 
               onClick={() => handleViewKtp(row.original.id)}
-              className="text-blue-600 hover:text-blue-800 transition-colors bg-blue-50 p-2 rounded-full"
+              className="text-teal-600 hover:text-teal-800 transition-colors bg-teal-50 p-2 rounded-full"
               title="Lihat KTP"
             >
               <Eye size={18} />
@@ -411,14 +411,14 @@ const ResidentList = () => {
         <div className="flex items-center gap-2">
           <button 
             onClick={() => handleEdit(row.original.id)}
-            className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition-colors text-sm font-medium"
+            className="bg-teal-100 text-teal-700 px-3 py-1 rounded hover:bg-teal-200 transition-colors text-sm font-medium"
           >
             <Edit size={14} />
             Edit
           </button>
           <button 
             onClick={() => handleDeactivate(row.original.id)}
-            className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition-colors text-sm font-medium"
+            className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition-colors text-sm font-medium flex items-center gap-2"
           >
             <Power size={14} />
             Nonaktifkan
@@ -434,7 +434,7 @@ const ResidentList = () => {
         <h1 className="text-2xl font-bold text-slate-800">Data Warga</h1>
         <button 
           onClick={handleAdd}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
         >
           <PlusCircle size={20} />
           Tambah Warga

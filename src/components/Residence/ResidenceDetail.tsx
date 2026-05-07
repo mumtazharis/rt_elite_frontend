@@ -208,7 +208,7 @@ const ResidenceDetail = () => {
       cell: (info) => {
         const val = info.getValue();
         return (val === true || val === 1) ? (
-          <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full text-xs font-bold">Ya</span>
+          <span className="bg-teal-100 text-teal-700 px-2 py-0.5 rounded-full text-xs font-bold">Ya</span>
         ) : (
           <span className="text-slate-400 text-xs">-</span>
         );
@@ -258,7 +258,7 @@ const ResidenceDetail = () => {
               )}
               <button
                 onClick={() => handleDeactivate(row.original.id)}
-                className="bg-red-50 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 transition-colors text-xs font-semibold"
+                className="bg-red-50 flex items-center gap-2 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 transition-colors text-xs font-semibold"
               >
                 <Power size={14} />
                 Nonaktifkan
@@ -283,8 +283,8 @@ const ResidenceDetail = () => {
         <div>
           <h1 className="text-2xl font-bold text-slate-800">Detail Penghuni Rumah</h1>
           {residence ? (
-            <p className="text-blue-600 font-medium flex items-center gap-2 mt-1">
-              <span className="bg-blue-100 px-2 py-0.5 rounded text-sm font-bold">No. {residence.house_number}</span>
+            <p className="text-teal-600 font-medium flex items-center gap-2 mt-1">
+              <span className="bg-teal-100 px-2 py-0.5 rounded text-sm font-bold">No. {residence.house_number}</span>
               <span className="text-slate-500 text-sm italic">{residence.address}</span>
               {!residence.is_active && (
                 <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-bold uppercase">Non-Aktif</span>
@@ -300,7 +300,7 @@ const ResidenceDetail = () => {
         <div className="flex justify-end">
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+            className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
           >
             <PlusCircle size={20} />
             Tambah Penghuni

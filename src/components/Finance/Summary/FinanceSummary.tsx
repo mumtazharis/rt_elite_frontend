@@ -215,7 +215,7 @@ const FinanceSummary = () => {
         return (
           <div className="flex flex-col">
             <span className="font-semibold text-slate-800">{String(info.getValue())}</span>
-            <span className="text-[10px] text-blue-500 uppercase tracking-wider font-bold mt-1">Manual</span>
+            <span className="text-[10px] text-teal-500 uppercase tracking-wider font-bold mt-1">Manual</span>
           </div>
         );
       }, 
@@ -260,14 +260,14 @@ const FinanceSummary = () => {
                 type="date" 
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="text-sm px-2 py-1 rounded border border-slate-200 outline-none focus:border-blue-400"
+                className="text-sm px-2 py-1 rounded border border-slate-200 outline-none focus:border-teal-400"
             />
             <span className="text-slate-400 text-sm">-</span>
             <input 
                 type="date" 
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="text-sm px-2 py-1 rounded border border-slate-200 outline-none focus:border-blue-400"
+                className="text-sm px-2 py-1 rounded border border-slate-200 outline-none focus:border-teal-400"
             />
             {(dateFrom || dateTo) && (
                  <button 
@@ -282,7 +282,7 @@ const FinanceSummary = () => {
 
       {loading && !summary ? (
         <div className="flex justify-center items-center py-20">
-          <Loader2 className="animate-spin text-blue-500" size={40} />
+          <Loader2 className="animate-spin text-teal-500" size={40} />
         </div>
       ) : error ? (
         <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-100">
@@ -291,12 +291,12 @@ const FinanceSummary = () => {
       ) : summary ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Saldo Card */}
-          <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl p-6 text-white shadow-lg shadow-blue-200 relative overflow-hidden">
+          <div className="bg-teal-900 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-20">
                 <Wallet size={80} />
              </div>
              <div className="relative z-10">
-                <h3 className="text-blue-100 font-medium text-sm mb-1">Total Saldo Kas</h3>
+                <h3 className="text-teal-100 font-medium text-sm mb-1">Total Saldo Kas</h3>
                 <p className="text-3xl font-bold">{formatCurrency(totalBalance)}</p>
              </div>
           </div>

@@ -35,7 +35,7 @@ const Navbar = ({ onLogout, toggleSidebar }: NavbarProps) => {
         >
           <Menu size={24} />
         </button>
-        <h2 className="text-xl font-bold tracking-wide text-blue-800">
+        <h2 className="text-xl font-bold tracking-wide text-teal-800">
           RT Elite
         </h2>
       </div>

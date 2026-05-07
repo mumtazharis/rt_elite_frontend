@@ -309,7 +309,7 @@ const FeeSettingList = () => {
       accessorKey: 'amount',
       header: 'Jumlah',
       cell: (info) => (
-        <span className="font-semibold text-blue-700">
+        <span className="font-semibold text-teal-700">
           {formatCurrency(Number(info.getValue()))}
         </span>
       ),
@@ -370,7 +370,7 @@ const FeeSettingList = () => {
             </button>
             <button 
               onClick={() => handleEdit(row.original)}
-              className="p-1.5 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
+              className="p-1.5 bg-teal-50 text-teal-700 rounded-md hover:bg-teal-100 transition-colors"
               title="Edit"
             >
               <Edit size={16} />
@@ -394,7 +394,7 @@ const FeeSettingList = () => {
         <h1 className="text-2xl font-bold text-slate-800">Setting Jadwal Iuran</h1>
         <button 
           onClick={handleAdd}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
         >
           <PlusCircle size={20} />
           Tambah Setting

@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { 
-  Wallet, 
-  ArrowDownRight, 
-  ArrowUpRight, 
-  Users, 
-  Home as HomeIcon, 
-  Settings, 
+import {
+  Wallet,
+  ArrowDownRight,
+  ArrowUpRight,
+  Users,
+  Home as HomeIcon,
+  Settings,
   Receipt,
   Loader2,
   Calendar,
   BarChart3
 } from 'lucide-react';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
   ResponsiveContainer,
   Cell
 } from 'recharts';
@@ -111,7 +111,7 @@ const Dashboard = () => {
   if (loading && !summary) {
     return (
       <div className="flex justify-center items-center h-64">
-        <Loader2 className="animate-spin text-blue-600" size={40} />
+        <Loader2 className="animate-spin text-teal-600" size={40} />
       </div>
     );
   }
@@ -127,12 +127,12 @@ const Dashboard = () => {
       {/* Stats Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Main Balance Card */}
-        <div className="md:col-span-2 bg-gradient-to-br from-blue-700 via-blue-600 to-indigo-700 rounded-3xl p-8 text-white shadow-xl shadow-blue-200 relative overflow-hidden flex flex-col justify-between min-h-[180px]">
+        <div className="md:col-span-2 bg-teal-900 rounded-3xl p-8 text-white shadow-xl relative overflow-hidden flex flex-col justify-between min-h-[180px]">
           <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
             <Wallet size={120} />
           </div>
           <div className="relative z-10">
-            <span className="text-blue-100 font-medium text-sm uppercase tracking-wider">Total Saldo Kas RT</span>
+            <span className="text-teal-100 font-medium text-sm uppercase tracking-wider">Total Saldo Kas RT</span>
             <h2 className="text-4xl md:text-5xl font-black mt-2">{formatCurrency(summary?.balance || 0)}</h2>
           </div>
           <div className="relative z-10 flex gap-6 mt-6">
@@ -141,7 +141,7 @@ const Dashboard = () => {
                 <ArrowDownRight size={16} className="text-green-300" />
               </div>
               <div>
-                <p className="text-[10px] text-blue-100 uppercase font-bold">Pemasukan</p>
+                <p className="text-[10px] text-teal-100 uppercase font-bold">Pemasukan</p>
                 <p className="font-semibold text-sm">{formatCurrency(summary?.total_income || 0)}</p>
               </div>
             </div>
@@ -150,7 +150,7 @@ const Dashboard = () => {
                 <ArrowUpRight size={16} className="text-red-300" />
               </div>
               <div>
-                <p className="text-[10px] text-blue-100 uppercase font-bold">Pengeluaran</p>
+                <p className="text-[10px] text-teal-100 uppercase font-bold">Pengeluaran</p>
                 <p className="font-semibold text-sm">{formatCurrency(summary?.total_expense || 0)}</p>
               </div>
             </div>
@@ -186,7 +186,7 @@ const Dashboard = () => {
       <div className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
+            <div className="p-2 bg-teal-50 text-teal-600 rounded-xl">
               <BarChart3 size={20} />
             </div>
             <div>
@@ -194,26 +194,26 @@ const Dashboard = () => {
               <p className="text-xs text-slate-400">Pemasukan vs Pengeluaran bulanan</p>
             </div>
           </div>
-          
+
           <div className="flex flex-col sm:flex-row items-center gap-2 bg-slate-50 p-2 rounded-xl border border-slate-100">
             <div className="flex items-center gap-1 px-2">
-                <Calendar size={14} className="text-slate-400" />
-                <span className="text-[10px] font-bold text-slate-500 uppercase">Periode</span>
+              <Calendar size={14} className="text-slate-400" />
+              <span className="text-[10px] font-bold text-slate-500 uppercase">Periode</span>
             </div>
             <div className="flex items-center gap-2">
-                <input 
-                    type="month" 
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none focus:border-blue-400"
-                />
-                <span className="text-slate-300 text-xs">-</span>
-                <input 
-                    type="month" 
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none focus:border-blue-400"
-                />
+              <input
+                type="month"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none focus:border-teal-400"
+              />
+              <span className="text-slate-300 text-xs">-</span>
+              <input
+                type="month"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                className="text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg px-2 py-1 outline-none focus:border-teal-400"
+              />
             </div>
           </div>
         </div>
@@ -221,30 +221,30 @@ const Dashboard = () => {
         <div className="h-[350px] w-full">
           {chartLoading ? (
             <div className="flex flex-col justify-center items-center h-full gap-2">
-              <Loader2 className="animate-spin text-blue-600" size={24} />
+              <Loader2 className="animate-spin text-teal-600" size={24} />
               <p className="text-xs text-slate-400 font-medium italic">Mengolah data grafik...</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
-                <XAxis 
-                  dataKey="label" 
-                  axisLine={false} 
-                  tickLine={false} 
+                <XAxis
+                  dataKey="label"
+                  axisLine={false}
+                  tickLine={false}
                   tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 600 }}
                   dy={10}
                 />
-                <YAxis 
-                  axisLine={false} 
-                  tickLine={false} 
+                <YAxis
+                  axisLine={false}
+                  tickLine={false}
                   tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 600 }}
                 />
-                <Tooltip 
+                <Tooltip
                   cursor={{ fill: '#f8fafc' }}
-                  contentStyle={{ 
-                    borderRadius: '16px', 
-                    border: 'none', 
+                  contentStyle={{
+                    borderRadius: '16px',
+                    border: 'none',
                     boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
                     padding: '12px 16px'
                   }}
@@ -252,19 +252,19 @@ const Dashboard = () => {
                   labelStyle={{ marginBottom: '8px', color: '#1e293b', fontWeight: 800 }}
                 />
                 <Legend iconType="circle" wrapperStyle={{ paddingTop: '20px', fontSize: '12px', fontWeight: 600 }} />
-                <Bar 
-                  name="Pemasukan" 
-                  dataKey="income" 
-                  fill="#2563eb" 
-                  radius={[6, 6, 0, 0]} 
-                  barSize={chartData.length > 12 ? 10 : 20} 
+                <Bar
+                  name="Pemasukan"
+                  dataKey="income"
+                  fill="#2563eb"
+                  radius={[6, 6, 0, 0]}
+                  barSize={chartData.length > 12 ? 10 : 20}
                 />
-                <Bar 
-                  name="Pengeluaran" 
-                  dataKey="expense" 
-                  fill="#ef4444" 
-                  radius={[6, 6, 0, 0]} 
-                  barSize={chartData.length > 12 ? 10 : 20} 
+                <Bar
+                  name="Pengeluaran"
+                  dataKey="expense"
+                  fill="#ef4444"
+                  radius={[6, 6, 0, 0]}
+                  barSize={chartData.length > 12 ? 10 : 20}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -295,7 +295,7 @@ const Dashboard = () => {
                     <span className="font-semibold text-slate-700">{fee.name}</span>
                     <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">{fee.period}</span>
                   </div>
-                  <span className="text-blue-600 font-bold">{formatCurrency(fee.amount)}</span>
+                  <span className="text-teal-600 font-bold">{formatCurrency(fee.amount)}</span>
                 </div>
               ))
             )}

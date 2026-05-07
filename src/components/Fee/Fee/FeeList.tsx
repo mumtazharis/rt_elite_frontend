@@ -295,7 +295,7 @@ const FeeList = () => {
       accessorKey: 'amount',
       header: 'Nominal',
       cell: (info) => (
-        <span className="font-bold text-blue-600">
+        <span className="font-bold text-teal-600">
           {formatCurrency(Number(info.getValue()))}
         </span>
       ),
@@ -321,7 +321,7 @@ const FeeList = () => {
             </div>
             <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
               <div 
-                className={`h-full transition-all duration-500 ${percent === 100 ? 'bg-green-500' : 'bg-blue-500'}`}
+                className={`h-full transition-all duration-500 ${percent === 100 ? 'bg-green-500' : 'bg-teal-500'}`}
                 style={{ width: `${percent}%` }}
               />
             </div>
@@ -337,7 +337,7 @@ const FeeList = () => {
         <div className="flex items-center gap-2">
           <button 
             onClick={() => handleShowDetail(row.original.id)}
-            className="p-1.5 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
+            className="p-1.5 bg-teal-50 text-teal-700 rounded-md hover:bg-teal-100 transition-colors"
             title="Lihat Detail Pembayaran"
           >
             <Eye size={16} />
@@ -370,7 +370,7 @@ const FeeList = () => {
         </div>
         <button 
           onClick={handleIncidental}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
         >
           <PlusCircle size={20} />
           Buat Tagihan Dadakan

@@ -34,8 +34,8 @@ const ManualEntryFormModal: React.FC<Props> = ({
 }) => {
   if (!isOpen) return null;
 
-  const title = mode === 'create' 
-    ? `Tambah ${type === 'income' ? 'Pemasukan' : 'Pengeluaran'} Manual` 
+  const title = mode === 'create'
+    ? `Tambah ${type === 'income' ? 'Pemasukan' : 'Pengeluaran'} Manual`
     : `Edit ${type === 'income' ? 'Pemasukan' : 'Pengeluaran'}`;
 
   return (
@@ -43,7 +43,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
       <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         <div className="flex justify-between items-center p-5 border-b border-slate-100">
           <h2 className="text-lg font-bold text-slate-800">{title}</h2>
-          <button 
+          <button
             onClick={onClose}
             className="text-slate-400 hover:text-slate-600 hover:bg-slate-100 p-1.5 rounded-lg transition-colors"
           >
@@ -60,7 +60,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
         <form onSubmit={onSubmit} className="p-5 space-y-4">
           {isLoading ? (
             <div className="flex justify-center items-center py-8">
-              <Loader2 className="animate-spin text-blue-500" size={32} />
+              <Loader2 className="animate-spin text-teal-500" size={32} />
             </div>
           ) : (
             <>
@@ -72,7 +72,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
                   type="text"
                   required
                   placeholder="Masukkan deskripsi"
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-sm"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-shadow text-sm"
                   value={formData.description}
                   onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 />
@@ -91,7 +91,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
                     required
                     min="0"
                     placeholder="0"
-                    className="w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-sm"
+                    className="w-full pl-10 pr-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-shadow text-sm"
                     value={formData.amount}
                     onChange={(e) => setFormData(prev => ({ ...prev, amount: e.target.value }))}
                   />
@@ -105,7 +105,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
                 <input
                   type="date"
                   required
-                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow text-sm"
+                  className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-shadow text-sm"
                   value={formData.transaction_date}
                   onChange={(e) => setFormData(prev => ({ ...prev, transaction_date: e.target.value }))}
                 />
@@ -119,13 +119,12 @@ const ManualEntryFormModal: React.FC<Props> = ({
               onClick={onClose}
               className="px-4 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
             >
-              <X size={16} />
               Batal
             </button>
             <button
               type="submit"
               disabled={isSaving || isLoading}
-              className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm shadow-blue-200"
+              className="px-4 py-2 text-sm font-semibold text-white bg-teal-600 rounded-lg hover:bg-teal-700 transition-colors flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm shadow-teal-200"
             >
               {isSaving ? (
                 <>

@@ -31,12 +31,12 @@ const IncomeList = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
-  
+
   // State TanStack
   const [globalFilter, setGlobalFilter] = useState('');
   const [debouncedFilter, setDebouncedFilter] = useState('');
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0, 
+    pageIndex: 0,
     pageSize: 10,
   });
 
@@ -108,9 +108,9 @@ const IncomeList = () => {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const result = await response.json();
-        
+
         setData(result.data || []);
-        setTotalRecords(result.recordsFiltered || 0); 
+        setTotalRecords(result.recordsFiltered || 0);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -147,20 +147,20 @@ const IncomeList = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const isEdit = formModal.mode === 'edit';
-    
+
     setFormModal(prev => ({ ...prev, isSaving: true, error: null }));
 
     try {
       const token = Cookies.get('access_token');
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-      const url = isEdit 
+      const url = isEdit
         ? `${apiUrl}/api/cashbooks/${selectedId}`
         : `${apiUrl}/api/cashbooks`;
 
       const response = await fetch(url, {
         method: isEdit ? 'PUT' : 'POST',
-        headers: { 
+        headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -183,7 +183,7 @@ const IncomeList = () => {
 
       setRefreshTrigger(prev => prev + 1);
       setFormModal(prev => ({ ...prev, isOpen: false, isSaving: false }));
-      
+
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
@@ -222,7 +222,7 @@ const IncomeList = () => {
     {
       accessorKey: 'transaction_date',
       header: 'Tanggal',
-      cell: (info) => formatDate(info.getValue() as string), 
+      cell: (info) => formatDate(info.getValue() as string),
     },
     {
       accessorKey: 'description',
@@ -230,27 +230,27 @@ const IncomeList = () => {
       cell: (info) => {
         const entry = info.row.original;
         if (entry.source === 'iuran' && entry.payment) {
-             return (
-                 <div className="flex flex-col">
-                    <span className="font-semibold text-slate-800">{entry.description}</span>
-                    <div className="flex items-center gap-2 mt-1">
-                        <span className="flex items-center gap-1 text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
-                            <Home size={10} /> No. {entry.payment.residence.house_number}
-                        </span>
-                        <span className="flex items-center gap-1 text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
-                            <Receipt size={10} /> {entry.payment.fee.name}
-                        </span>
-                    </div>
-                 </div>
-             )
+          return (
+            <div className="flex flex-col">
+              <span className="font-semibold text-slate-800">{entry.description}</span>
+              <div className="flex items-center gap-2 mt-1">
+                <span className="flex items-center gap-1 text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                  <Home size={10} /> No. {entry.payment.residence.house_number}
+                </span>
+                <span className="flex items-center gap-1 text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">
+                  <Receipt size={10} /> {entry.payment.fee.name}
+                </span>
+              </div>
+            </div>
+          )
         }
         return (
           <div className="flex flex-col">
             <span className="font-semibold text-slate-800">{String(info.getValue())}</span>
-            <span className="text-[10px] text-blue-500 uppercase tracking-wider font-bold mt-1">Manual</span>
+            <span className="text-[10px] text-teal-500 uppercase tracking-wider font-bold mt-1">Manual</span>
           </div>
         );
-      }, 
+      },
     },
     {
       accessorKey: 'amount',
@@ -270,9 +270,9 @@ const IncomeList = () => {
           <h1 className="text-2xl font-bold text-slate-800">Daftar Pemasukan</h1>
           <p className="text-sm text-slate-500">Pantau seluruh pemasukan kas dari iuran maupun manual.</p>
         </div>
-        <button 
+        <button
           onClick={handleAddManual}
-          className="bg-green-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-green-700 transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
         >
           <PlusCircle size={20} />
           Tambah Pemasukan Manual
@@ -281,36 +281,36 @@ const IncomeList = () => {
 
       {/* Date Filter */}
       <div className="flex flex-col sm:flex-row items-center gap-2 bg-white p-3 rounded-xl shadow-sm border border-slate-100 w-fit">
-          <div className="flex items-center gap-2 px-2 border-r border-slate-100 pr-4">
-              <Calendar size={18} className="text-slate-400" />
-              <span className="text-sm font-semibold text-slate-600">Filter Tanggal:</span>
-          </div>
-          <div className="flex items-center gap-2 pl-2">
-              <input 
-                  type="date" 
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-blue-400"
-              />
-              <span className="text-slate-400 text-sm">-</span>
-              <input 
-                  type="date" 
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-blue-400"
-              />
-              {(dateFrom || dateTo) && (
-                   <button 
-                      onClick={handleResetFilter}
-                      className="ml-2 text-xs text-red-500 hover:text-red-700 font-medium px-2 py-1 hover:bg-red-50 rounded transition-colors flex items-center gap-1"
-                    >
-                       <RefreshCw size={12} />
-                       Reset
-                    </button>
-              )}
-          </div>
+        <div className="flex items-center gap-2 px-2 border-r border-slate-100 pr-4">
+          <Calendar size={18} className="text-slate-400" />
+          <span className="text-sm font-semibold text-slate-600">Filter Tanggal:</span>
+        </div>
+        <div className="flex items-center gap-2 pl-2">
+          <input
+            type="date"
+            value={dateFrom}
+            onChange={(e) => setDateFrom(e.target.value)}
+            className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-teal-400"
+          />
+          <span className="text-slate-400 text-sm">-</span>
+          <input
+            type="date"
+            value={dateTo}
+            onChange={(e) => setDateTo(e.target.value)}
+            className="text-sm px-2 py-1.5 rounded border border-slate-200 outline-none focus:border-teal-400"
+          />
+          {(dateFrom || dateTo) && (
+            <button
+              onClick={handleResetFilter}
+              className="ml-2 text-xs text-red-500 hover:text-red-700 font-medium px-2 py-1 hover:bg-red-50 rounded transition-colors flex items-center gap-1"
+            >
+              <RefreshCw size={12} />
+              Reset
+            </button>
+          )}
+        </div>
       </div>
-      
+
       <TanStackTable
         data={data}
         columns={columns}
@@ -322,7 +322,7 @@ const IncomeList = () => {
         setGlobalFilter={setGlobalFilter}
       />
 
-      <ManualEntryFormModal 
+      <ManualEntryFormModal
         isOpen={formModal.isOpen}
         mode={formModal.mode}
         type="income"

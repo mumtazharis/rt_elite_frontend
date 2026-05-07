@@ -271,7 +271,7 @@ const ResidenceList = () => {
         <div className="flex items-center gap-2">
           <button 
             onClick={() => navigate(`/rumah/${row.original.id}`, { state: { residence: row.original } })}
-            className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium"
+            className="flex items-center gap-2 bg-teal-50 text-teal-700 px-3 py-1.5 rounded-md hover:bg-teal-100 transition-colors text-sm font-medium"
           >
             <Eye size={16} />
             Penghuni
@@ -307,7 +307,7 @@ const ResidenceList = () => {
         <h1 className="text-2xl font-bold text-slate-800">Data Rumah</h1>
         <button 
           onClick={handleAdd}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+          className="bg-teal-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-teal-700 transition-colors flex items-center gap-2 shadow-sm"
         >
           <PlusCircle size={20} />
           Tambah Rumah
