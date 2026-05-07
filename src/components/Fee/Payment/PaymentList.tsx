@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../../Common/TanStackTable';
-import { CheckCircle, XCircle, Home, Receipt, PlusCircle } from 'lucide-react';
+import { CheckCircle, Home, Receipt, PlusCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
 import AdvancePaymentModal from './AdvancePaymentModal';
 
@@ -137,42 +137,6 @@ const PaymentList = () => {
     }
   };
 
-  const handleUnpay = async (id: number) => {
-    const result = await Swal.fire({
-      title: 'Batalkan Pelunasan?',
-      text: 'Status akan kembali menjadi belum bayar dan catatan kas terkait akan dihapus.',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#ef4444',
-      cancelButtonColor: '#64748b',
-      confirmButtonText: 'Ya, Batalkan',
-      cancelButtonText: 'Kembali'
-    });
-
-    if (result.isConfirmed) {
-      try {
-        const token = Cookies.get('access_token');
-        const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
-        const response = await fetch(`${apiUrl}/api/payments/${id}/unpay`, {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json',
-          }
-        });
-
-        const resultData = await response.json();
-
-        if (!response.ok) throw new Error(resultData.message || 'Gagal membatalkan pelunasan');
-
-        setRefreshTrigger(prev => prev + 1);
-        Swal.fire('Berhasil!', 'Pelunasan telah dibatalkan.', 'success');
-      } catch (error: any) {
-        Swal.fire('Gagal', error.message, 'error');
-      }
-    }
-  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('id-ID', {
@@ -249,21 +213,13 @@ const PaymentList = () => {
         const isLunas = row.original.status === 'lunas';
         return (
           <div className="flex items-center gap-2">
-            {!isLunas ? (
+            {!isLunas && (
               <button
                 onClick={() => handlePay(row.original.id)}
                 className="flex items-center gap-1.5 bg-green-50 text-green-700 px-3 py-1.5 rounded-md hover:bg-green-100 transition-colors text-xs font-bold border border-green-200"
               >
                 <CheckCircle size={14} />
                 Tandai Lunas
-              </button>
-            ) : (
-              <button
-                onClick={() => handleUnpay(row.original.id)}
-                className="flex items-center gap-1.5 bg-red-50 text-red-700 px-3 py-1.5 rounded-md hover:bg-red-100 transition-colors text-xs font-bold border border-red-200"
-              >
-                <XCircle size={14} />
-                Batalkan
               </button>
             )}
           </div>

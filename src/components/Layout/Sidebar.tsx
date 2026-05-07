@@ -10,6 +10,7 @@ interface SidebarProps {
 const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const location = useLocation();
   const [isIuranOpen, setIsIuranOpen] = useState(location.pathname.startsWith('/iuran'));
+  const [isKeuanganOpen, setIsKeuanganOpen] = useState(location.pathname.startsWith('/keuangan'));
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 rounded-md font-medium transition-colors ${isActive
@@ -86,9 +87,34 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             )}
           </li>
           <li>
-            <NavLink to="/keuangan" className={navLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
-              Keuangan
-            </NavLink>
+            <button 
+              onClick={() => setIsKeuanganOpen(!isKeuanganOpen)}
+              className={`w-full flex items-center justify-between px-4 py-2 rounded-md font-medium transition-colors ${
+                location.pathname.startsWith('/keuangan') ? 'bg-slate-200 text-blue-700' : 'text-slate-700 hover:bg-slate-200 hover:text-slate-900'
+              }`}
+            >
+              <span>Keuangan</span>
+              {isKeuanganOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            {isKeuanganOpen && (
+              <ul className="mt-1 space-y-1 ml-4 border-l border-slate-200">
+                <li>
+                  <NavLink to="/keuangan/ringkasan" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Ringkasan
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/keuangan/pemasukan" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Pemasukan
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/keuangan/pengeluaran" className={subNavLinkClass} onClick={() => window.innerWidth < 768 && onClose()}>
+                    Pengeluaran
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
         </ul>
       </aside>

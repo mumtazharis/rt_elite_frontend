@@ -1,28 +1,24 @@
-// src/components/Fee/Fee/FeeList.tsx
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../../Common/TanStackTable';
-import { Plus, Edit, Trash2, Eye, TrendingUp } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Power } from 'lucide-react';
 import Swal from 'sweetalert2';
-import FeeFormModal, { type FeeFormData } from './FeeFormModal';
-import FeeDetailModal from './FeeDetailModal';
+import ExpenseSettingFormModal, { type ExpenseSettingFormData } from './ExpenseSettingFormModal';
+import { useNavigate } from 'react-router-dom';
 
-interface Fee {
+interface ExpenseSetting {
   id: number;
   name: string;
   amount: number;
-  due_date: string;
-  payments_count: number;
-  paid_count: number;
-  unpaid_count: number;
-  setting?: {
-    name: string;
-  };
+  period: 'monthly' | 'yearly';
+  is_active: boolean;
+  cashbooks_count: number;
 }
 
-const FeeList = () => {
-  const [data, setData] = useState<Fee[]>([]);
+const ExpenseSettingList = () => {
+  const navigate = useNavigate();
+  const [data, setData] = useState<ExpenseSetting[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
@@ -50,22 +46,12 @@ const FeeList = () => {
     error: null,
   });
 
-  // State Detail Modal
-  const [detailModal, setDetailModal] = useState<{
-    isOpen: boolean;
-    isLoading: boolean;
-    data: any | null;
-  }>({
-    isOpen: false,
-    isLoading: false,
-    data: null,
-  });
-
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<FeeFormData>({
+  const [canChangePeriod, setCanChangePeriod] = useState<boolean>(true);
+  const [formData, setFormData] = useState<ExpenseSettingFormData>({
     name: '',
     amount: '',
-    due_date: new Date().toISOString().split('T')[0],
+    period: 'monthly',
   });
 
   // Debounce Pencarian
@@ -95,7 +81,7 @@ const FeeList = () => {
           'search[value]': debouncedFilter,
         });
 
-        const response = await fetch(`${apiUrl}/api/fees?${params.toString()}`, {
+        const response = await fetch(`${apiUrl}/api/expense-settings?${params.toString()}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -116,19 +102,13 @@ const FeeList = () => {
     fetchData();
   }, [pagination.pageIndex, pagination.pageSize, debouncedFilter, refreshTrigger]);
 
-  const formatDateForInput = (dateString: string) => {
-    if (!dateString) return '';
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return '';
-    return date.toISOString().split('T')[0];
-  };
-
-  const handleIncidental = () => {
+  const handleAdd = () => {
     setSelectedId(null);
+    setCanChangePeriod(true);
     setFormData({
       name: '',
       amount: '',
-      due_date: new Date().toISOString().split('T')[0],
+      period: 'monthly',
     });
     setFormModal({
       isOpen: true,
@@ -139,12 +119,13 @@ const FeeList = () => {
     });
   };
 
-  const handleEdit = (fee: Fee) => {
-    setSelectedId(fee.id);
+  const handleEdit = (setting: ExpenseSetting) => {
+    setSelectedId(setting.id);
+    setCanChangePeriod(setting.cashbooks_count === 0);
     setFormData({
-      name: fee.name,
-      amount: fee.amount,
-      due_date: formatDateForInput(fee.due_date),
+      name: setting.name,
+      amount: setting.amount.toString(),
+      period: setting.period,
     });
     setFormModal({
       isOpen: true,
@@ -155,23 +136,40 @@ const FeeList = () => {
     });
   };
 
-  const handleShowDetail = async (id: number) => {
-    setDetailModal({ isOpen: true, isLoading: true, data: null });
-    try {
-      const token = Cookies.get('access_token');
-      const apiUrl = import.meta.env.VITE_API_BASE_URL;
+  const handleToggleActive = async (setting: ExpenseSetting) => {
+    const action = setting.is_active ? 'Nonaktifkan' : 'Aktifkan';
+    
+    const result = await Swal.fire({
+      title: `${action} Pengaturan?`,
+      text: `Pengaturan pengeluaran ini akan ${setting.is_active ? 'berhenti' : 'mulai'} dieksekusi secara otomatis.`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: setting.is_active ? '#f59e0b' : '#10b981',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: `Ya, ${action}`,
+      cancelButtonText: 'Batal'
+    });
 
-      const response = await fetch(`${apiUrl}/api/fees/${id}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+    if (result.isConfirmed) {
+      try {
+        const token = Cookies.get('access_token');
+        const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-      if (!response.ok) throw new Error('Gagal mengambil detail tagihan');
+        const response = await fetch(`${apiUrl}/api/expense-settings/${setting.id}/toggle-active`, {
+          method: 'PATCH',
+          headers: { 
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json',
+          }
+        });
 
-      const result = await response.json();
-      setDetailModal({ isOpen: true, isLoading: false, data: result });
-    } catch (error: any) {
-      setDetailModal({ isOpen: true, isLoading: false, data: null });
-      Swal.fire('Error', error.message, 'error');
+        if (!response.ok) throw new Error('Gagal mengubah status');
+
+        setRefreshTrigger(prev => prev + 1);
+        Swal.fire('Berhasil!', `Status telah diubah.`, 'success');
+      } catch (error: any) {
+        Swal.fire('Gagal', error.message, 'error');
+      }
     }
   };
 
@@ -186,8 +184,8 @@ const FeeList = () => {
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
       const url = isEdit 
-        ? `${apiUrl}/api/fees/${selectedId}`
-        : `${apiUrl}/api/fees/incidental`;
+        ? `${apiUrl}/api/expense-settings/${selectedId}`
+        : `${apiUrl}/api/expense-settings`;
 
       const response = await fetch(url, {
         method: isEdit ? 'PUT' : 'POST',
@@ -202,6 +200,9 @@ const FeeList = () => {
       const result = await response.json();
 
       if (!response.ok) {
+        if (response.status === 409) {
+             throw new Error(result.message);
+        }
         if (result.errors) {
           const firstError = Object.values(result.errors)[0] as string[];
           throw new Error(firstError[0] || 'Terjadi kesalahan pada server');
@@ -215,7 +216,7 @@ const FeeList = () => {
       Swal.fire({
         icon: 'success',
         title: 'Berhasil!',
-        text: isEdit ? 'Tagihan berhasil diperbarui' : 'Tagihan dadakan berhasil dibuat',
+        text: result.message,
         confirmButtonColor: '#2563eb',
       });
     } catch (error: any) {
@@ -223,20 +224,20 @@ const FeeList = () => {
     }
   };
 
-  const handleDelete = async (fee: Fee) => {
-    if (fee.paid_count > 0) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Tidak Dapat Menghapus',
-        text: 'Tagihan ini sudah memiliki pembayaran yang lunas.',
-        confirmButtonColor: '#2563eb',
-      });
-      return;
+  const handleDelete = async (setting: ExpenseSetting) => {
+    if (setting.cashbooks_count > 0) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Tidak Dapat Menghapus',
+          text: 'Pengaturan ini tidak dapat dihapus karena sudah memiliki riwayat pengeluaran kas.',
+          confirmButtonColor: '#2563eb',
+        });
+        return;
     }
 
     const result = await Swal.fire({
-      title: 'Hapus Tagihan?',
-      text: 'Seluruh data pembayaran yang berkaitan akan ikut terhapus.',
+      title: 'Hapus Pengaturan?',
+      text: 'Pengaturan pengeluaran rutin ini akan dihapus secara permanen.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#ef4444',
@@ -250,7 +251,7 @@ const FeeList = () => {
         const token = Cookies.get('access_token');
         const apiUrl = import.meta.env.VITE_API_BASE_URL;
 
-        const response = await fetch(`${apiUrl}/api/fees/${fee.id}`, {
+        const response = await fetch(`${apiUrl}/api/expense-settings/${setting.id}`, {
           method: 'DELETE',
           headers: { 
             'Authorization': `Bearer ${token}`,
@@ -260,10 +261,13 @@ const FeeList = () => {
 
         const resultData = await response.json();
 
-        if (!response.ok) throw new Error(resultData.message || 'Gagal menghapus data');
+        if (!response.ok) {
+             if (response.status === 409) throw new Error(resultData.message);
+             throw new Error(resultData.message || 'Gagal menghapus data');
+        }
 
         setRefreshTrigger(prev => prev + 1);
-        Swal.fire('Berhasil!', 'Tagihan telah dihapus.', 'success');
+        Swal.fire('Berhasil!', 'Pengaturan telah dihapus.', 'success');
       } catch (error: any) {
         Swal.fire('Gagal', error.message, 'error');
       }
@@ -278,55 +282,40 @@ const FeeList = () => {
     }).format(amount);
   };
 
-  const columns: ColumnDef<Fee>[] = [
+  const columns: ColumnDef<ExpenseSetting>[] = [
     {
       accessorKey: 'name',
-      header: 'Nama Tagihan',
+      header: 'Nama Pengeluaran',
       cell: (info) => (
-        <div className="flex flex-col">
-          <span className="font-semibold text-slate-800">{String(info.getValue())}</span>
-          {info.row.original.setting && (
-            <span className="text-[10px] text-slate-400 italic">Auto: {info.row.original.setting.name}</span>
-          )}
-        </div>
+        <span className="font-semibold text-slate-800">{String(info.getValue())}</span>
       ), 
     },
     {
       accessorKey: 'amount',
       header: 'Nominal',
       cell: (info) => (
-        <span className="font-bold text-blue-600">
+        <span className="font-bold text-slate-700">
           {formatCurrency(Number(info.getValue()))}
         </span>
       ),
     },
     {
-      accessorKey: 'due_date',
-      header: 'Batas Waktu',
-      cell: (info) => info.getValue() || '-', 
+      accessorKey: 'period',
+      header: 'Periode',
+      cell: (info) => {
+          const val = info.getValue() as string;
+          return <span className="capitalize text-slate-600">{val === 'monthly' ? 'Bulanan' : 'Tahunan'}</span>
+      }, 
     },
     {
-      id: 'summary',
-      header: 'Progres Pembayaran',
-      cell: ({ row }) => {
-        const total = row.original.payments_count || 0;
-        const paid = row.original.paid_count || 0;
-        const percent = total > 0 ? Math.round((paid / total) * 100) : 0;
-        
+      accessorKey: 'is_active',
+      header: 'Status',
+      cell: (info) => {
+        const isActive = info.getValue() as boolean;
         return (
-          <div className="w-full max-w-[150px] space-y-1">
-            <div className="flex justify-between text-[10px] font-bold">
-              <span className="text-green-600">{paid} Lunas</span>
-              <span className="text-slate-400">{total} Rumah</span>
-            </div>
-            <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-              <div 
-                className={`h-full transition-all duration-500 ${percent === 100 ? 'bg-green-500' : 'bg-blue-500'}`}
-                style={{ width: `${percent}%` }}
-              />
-            </div>
-            <p className="text-[9px] text-right text-slate-500">{percent}% Selesai</p>
-          </div>
+          <span className={`px-2 py-1 rounded-full text-[10px] font-bold tracking-wider ${isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'}`}>
+            {isActive ? 'AKTIF' : 'NONAKTIF'}
+          </span>
         );
       },
     },
@@ -335,24 +324,24 @@ const FeeList = () => {
       header: 'Aksi',
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
-          <button 
-            onClick={() => handleShowDetail(row.original.id)}
-            className="p-1.5 bg-blue-50 text-blue-700 rounded-md hover:bg-blue-100 transition-colors"
-            title="Lihat Detail Pembayaran"
+           <button 
+            onClick={() => handleToggleActive(row.original)}
+            className={`p-1.5 rounded-md transition-colors ${row.original.is_active ? 'bg-amber-50 text-amber-600 hover:bg-amber-100' : 'bg-green-50 text-green-600 hover:bg-green-100'}`}
+            title={row.original.is_active ? 'Nonaktifkan' : 'Aktifkan'}
           >
-            <Eye size={16} />
+            <Power size={16} />
           </button>
           <button 
             onClick={() => handleEdit(row.original)}
             className="p-1.5 bg-slate-100 text-slate-700 rounded-md hover:bg-slate-200 transition-colors"
-            title="Edit Tagihan"
+            title="Edit Pengaturan"
           >
             <Edit size={16} />
           </button>
           <button 
             onClick={() => handleDelete(row.original)}
             className="p-1.5 bg-red-50 text-red-700 rounded-md hover:bg-red-100 transition-colors"
-            title="Hapus Tagihan"
+            title="Hapus Pengaturan"
           >
             <Trash2 size={16} />
           </button>
@@ -363,17 +352,25 @@ const FeeList = () => {
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center gap-2 mb-4">
+        <button 
+          onClick={() => navigate('/keuangan/pengeluaran')}
+          className="text-slate-500 hover:text-slate-800 transition-colors text-sm font-medium"
+        >
+          &larr; Kembali ke Pengeluaran
+        </button>
+      </div>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Daftar Tagihan</h1>
-          <p className="text-sm text-slate-500">Kelola riwayat tagihan dan pantau progres pembayaran warga.</p>
+          <h1 className="text-2xl font-bold text-slate-800">Pengaturan Pengeluaran Rutin</h1>
+          <p className="text-sm text-slate-500">Atur jadwal pengeluaran otomatis untuk kas RT.</p>
         </div>
         <button 
-          onClick={handleIncidental}
+          onClick={handleAdd}
           className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
         >
-          <TrendingUp size={20} />
-          Buat Tagihan Dadakan
+          <PlusCircle size={20} />
+          Tambah Pengaturan
         </button>
       </div>
       
@@ -388,26 +385,20 @@ const FeeList = () => {
         setGlobalFilter={setGlobalFilter}
       />
 
-      <FeeFormModal 
+      <ExpenseSettingFormModal 
         isOpen={formModal.isOpen}
         mode={formModal.mode}
         isLoading={formModal.isLoading}
         isSaving={formModal.isSaving}
         error={formModal.error}
         formData={formData}
+        canChangePeriod={canChangePeriod}
         onClose={() => setFormModal(prev => ({ ...prev, isOpen: false }))}
         onSubmit={handleSubmit}
         setFormData={setFormData}
-      />
-
-      <FeeDetailModal 
-        isOpen={detailModal.isOpen}
-        isLoading={detailModal.isLoading}
-        fee={detailModal.data}
-        onClose={() => setDetailModal(prev => ({ ...prev, isOpen: false }))}
       />
     </div>
   );
 };
 
-export default FeeList;
+export default ExpenseSettingList;

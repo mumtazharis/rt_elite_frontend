@@ -12,6 +12,12 @@ import FeeSettingList from './components/Fee/Setting/FeeSettingList';
 import FeeList from './components/Fee/Fee/FeeList';
 import PaymentList from './components/Fee/Payment/PaymentList';
 
+// Finance Components
+import FinanceSummary from './components/Finance/Summary/FinanceSummary';
+import IncomeList from './components/Finance/Income/IncomeList';
+import ExpenseList from './components/Finance/Expense/ExpenseList';
+import ExpenseSettingList from './components/Finance/ExpenseSetting/ExpenseSettingList';
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => Boolean(Cookies.get('access_token')));
 
@@ -65,7 +71,11 @@ function App() {
           <Route path="/iuran/setting" element={<FeeSettingList />} />
           <Route path="/iuran/tagihan" element={<FeeList />} />
           <Route path="/iuran/pembayaran" element={<PaymentList />} />
-          <Route path="/keuangan" element={<div>Halaman Keuangan (Segera Hadir)</div>} />
+          
+          <Route path="/keuangan/ringkasan" element={<FinanceSummary />} />
+          <Route path="/keuangan/pemasukan" element={<IncomeList />} />
+          <Route path="/keuangan/pengeluaran" element={<ExpenseList />} />
+          <Route path="/keuangan/pengeluaran/setting" element={<ExpenseSettingList />} />
 
           {/* Halaman 404 jika URL tidak ditemukan */}
           <Route path="*" element={<div className="text-center mt-10 text-xl font-bold">404 - Halaman Tidak Ditemukan</div>} />
