@@ -1,11 +1,11 @@
-# RT Elite - Frontend (React)
+# RT Elite - Frontend
 
 Dokumen ini berisi panduan untuk mempersiapkan dan menjalankan frontend aplikasi RT Elite di lingkungan lokal (development).
 
 ## Persyaratan Sistem
 
 Pastikan sistem Anda memenuhi persyaratan berikut sebelum menjalankan aplikasi:
-- Node.js (disarankan versi 18 atau yang lebih baru)
+- Node.js (disarankan versi 22 atau yang lebih baru)
 - npm (Node Package Manager)
 
 ## Langkah-langkah Menjalankan Project

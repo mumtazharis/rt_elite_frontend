@@ -250,7 +250,7 @@ const ResidenceDetail = () => {
               {!isPrimary && (
                 <button
                   onClick={() => handleSetPrimary(row.original.id)}
-                  className="bg-amber-50 text-amber-700 px-3 py-1 rounded border border-amber-200 hover:bg-amber-100 transition-colors text-xs font-semibold"
+                  className="bg-amber-50 flex items-center gap-2 text-amber-700 px-3 py-1 rounded border border-amber-200 hover:bg-amber-100 transition-colors text-xs font-semibold"
                 >
                   <UserCheck size={14} />
                   Set Utama
