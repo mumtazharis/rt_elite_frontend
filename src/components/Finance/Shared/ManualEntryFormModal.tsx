@@ -119,6 +119,7 @@ const ManualEntryFormModal: React.FC<Props> = ({
               onClick={onClose}
               className="px-4 py-2 text-sm font-semibold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors"
             >
+              <X size={16} />
               Batal
             </button>
             <button

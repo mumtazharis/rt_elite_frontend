@@ -1,6 +1,6 @@
 // src/components/Residence/OccupantFormModal.tsx
 import React, { useState } from 'react';
-import { X } from "lucide-react";
+import { X, Save } from "lucide-react";
 import { AsyncPaginate } from 'react-select-async-paginate';
 import Cookies from 'js-cookie';
 
@@ -187,6 +187,7 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
               className="bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded font-medium hover:bg-slate-50 transition-colors"
               disabled={isSaving}
             >
+              <X size={16} />
               Batal
             </button>
             <button
@@ -194,7 +195,12 @@ const OccupantFormModal: React.FC<OccupantFormModalProps> = ({
               className="bg-blue-600 text-white px-6 py-2 rounded font-medium hover:bg-blue-700 transition-colors shadow-sm disabled:bg-blue-400"
               disabled={isSaving || !formData.resident_id}
             >
-              {isSaving ? 'Menyimpan...' : 'Simpan Penghuni'}
+              {isSaving ? 'Menyimpan...' : (
+                <>
+                  <Save size={18} />
+                  Simpan Penghuni
+                </>
+              )}
             </button>
           </div>
         </form>

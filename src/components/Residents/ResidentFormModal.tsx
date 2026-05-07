@@ -1,6 +1,6 @@
 // src/components/Residents/ResidentFormModal.tsx
 import React from 'react';
-import { X } from "lucide-react";
+import { X, Save, PlusCircle } from "lucide-react";
 
 export interface ResidentFormData {
   nik: string;
@@ -223,6 +223,7 @@ const ResidentFormModal: React.FC<ResidentFormModalProps> = ({
             className="bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded font-medium hover:bg-slate-50 transition-colors"
             disabled={isSaving}
           >
+            <X size={16} />
             Batal
           </button>
           <button 
@@ -239,7 +240,12 @@ const ResidentFormModal: React.FC<ResidentFormModalProps> = ({
                 </svg>
                 Menyimpan...
               </>
-            ) : mode === 'edit' ? 'Simpan Perubahan' : 'Tambah Warga'}
+            ) : (
+              <>
+                {mode === 'edit' ? <Save size={18} /> : <PlusCircle size={18} />}
+                {mode === 'edit' ? 'Simpan Perubahan' : 'Tambah Warga'}
+              </>
+            )}
           </button>
         </div>
 

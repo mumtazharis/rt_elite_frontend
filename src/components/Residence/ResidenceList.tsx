@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../Common/TanStackTable';
-import { Eye, Plus, Edit } from 'lucide-react';
+import { Eye, PlusCircle, Edit, Power } from 'lucide-react';
 import Swal from 'sweetalert2';
 import ResidenceFormModal, { type ResidenceFormData } from './ResidenceFormModal';
 
@@ -269,6 +269,13 @@ const ResidenceList = () => {
       header: 'Aksi',
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
+          <button 
+            onClick={() => navigate(`/rumah/${row.original.id}`, { state: { residence: row.original } })}
+            className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium"
+          >
+            <Eye size={16} />
+            Penghuni
+          </button>
           {row.original.is_active ? (
             <>
               <button 
@@ -284,17 +291,11 @@ const ResidenceList = () => {
                 className="flex items-center gap-2 bg-red-50 text-red-700 px-3 py-1.5 rounded-md hover:bg-red-100 transition-colors text-sm font-medium"
                 title="Nonaktifkan Rumah"
               >
+                <Power size={16} />
                 Nonaktifkan
               </button>
             </>
           ) : null}
-          <button 
-            onClick={() => navigate(`/rumah/${row.original.id}`, { state: { residence: row.original } })}
-            className="flex items-center gap-2 bg-blue-50 text-blue-700 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors text-sm font-medium"
-          >
-            <Eye size={16} />
-            Penghuni
-          </button>
         </div>
       ),
     },
@@ -308,7 +309,7 @@ const ResidenceList = () => {
           onClick={handleAdd}
           className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
         >
-          <Plus size={20} />
+          <PlusCircle size={20} />
           Tambah Rumah
         </button>
       </div>

@@ -1,6 +1,6 @@
 // src/components/Fee/Payment/AdvancePaymentModal.tsx
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, Hash, Home, Receipt } from "lucide-react";
+import { X, Calendar, Hash, Home, Receipt, CheckCircle } from "lucide-react";
 import Cookies from 'js-cookie';
 import { AsyncPaginate } from 'react-select-async-paginate';
 
@@ -263,7 +263,7 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
 
               <div className="p-4 bg-blue-50 border border-blue-100 rounded-xl">
                 <p className="text-xs text-blue-700 leading-relaxed font-medium">
-                  <strong>Info:</strong> Pembayaran ini akan otomatis men-generate tagihan untuk {formData.number_of_periods} periode ke depan (sesuai jadwal iuran) dan langsung menandainya sebagai lunas.
+                  <strong>Info:</strong> Pembayaran ini akan otomatis men-generate tagihan untuk {formData.number_of_periods} periode (sesuai jadwal iuran) dan langsung menandainya sebagai lunas.
                 </p>
               </div>
             </form>
@@ -291,7 +291,12 @@ const AdvancePaymentModal: React.FC<AdvancePaymentModalProps> = ({
                 <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
                 Memproses...
               </>
-            ) : 'Proses Bayar'}
+            ) : (
+              <>
+                <CheckCircle size={18} />
+                Proses Bayar
+              </>
+            )}
           </button>
         </div>
 

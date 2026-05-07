@@ -1,6 +1,6 @@
 // src/components/Residence/ResidenceFormModal.tsx
 import React from 'react';
-import { X } from "lucide-react";
+import { X, Save, PlusCircle } from "lucide-react";
 
 export interface ResidenceFormData {
   house_number: string;
@@ -103,6 +103,7 @@ const ResidenceFormModal: React.FC<ResidenceFormModalProps> = ({
             className="bg-white text-slate-700 border border-slate-300 px-4 py-2 rounded font-medium hover:bg-slate-50 transition-colors"
             disabled={isSaving}
           >
+            <X size={16} />
             Batal
           </button>
           <button 
@@ -119,7 +120,12 @@ const ResidenceFormModal: React.FC<ResidenceFormModalProps> = ({
                 </svg>
                 Menyimpan...
               </>
-            ) : mode === 'edit' ? 'Simpan Perubahan' : 'Tambah Rumah'}
+            ) : (
+              <>
+                {mode === 'edit' ? <Save size={18} /> : <PlusCircle size={18} />}
+                {mode === 'edit' ? 'Simpan Perubahan' : 'Tambah Rumah'}
+              </>
+            )}
           </button>
         </div>
 

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../Common/TanStackTable';
-import { Eye, Plus } from "lucide-react";
+import { Eye, PlusCircle, Edit, Power } from "lucide-react";
 import Swal from 'sweetalert2';
 
 // Import sub-components
@@ -413,12 +413,14 @@ const ResidentList = () => {
             onClick={() => handleEdit(row.original.id)}
             className="bg-blue-100 text-blue-700 px-3 py-1 rounded hover:bg-blue-200 transition-colors text-sm font-medium"
           >
+            <Edit size={14} />
             Edit
           </button>
           <button 
             onClick={() => handleDeactivate(row.original.id)}
             className="bg-red-100 text-red-700 px-3 py-1 rounded hover:bg-red-200 transition-colors text-sm font-medium"
           >
+            <Power size={14} />
             Nonaktifkan
           </button>
         </div>
@@ -434,7 +436,7 @@ const ResidentList = () => {
           onClick={handleAdd}
           className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
         >
-          <Plus size={20} />
+          <PlusCircle size={20} />
           Tambah Warga
         </button>
       </div>

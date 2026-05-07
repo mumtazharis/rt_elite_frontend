@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../../Common/TanStackTable';
-import { Plus, Edit, Trash2, Power } from 'lucide-react';
+import { Edit, Trash2, Power, PlusCircle } from 'lucide-react';
 import Swal from 'sweetalert2';
 import FeeSettingFormModal, { type FeeSettingFormData } from './FeeSettingFormModal';
 
@@ -396,7 +396,7 @@ const FeeSettingList = () => {
           onClick={handleAdd}
           className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
         >
-          <Plus size={20} />
+          <PlusCircle size={20} />
           Tambah Setting
         </button>
       </div>

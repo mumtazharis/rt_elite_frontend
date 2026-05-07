@@ -75,6 +75,7 @@ const ResidentKtpModal: React.FC<ResidentKtpModalProps> = ({
             onClick={onClose}
             className="bg-slate-200 text-slate-800 px-4 py-2 rounded font-medium hover:bg-slate-300 transition-colors"
           >
+            <X size={16} />
             Tutup
           </button>
         </div>

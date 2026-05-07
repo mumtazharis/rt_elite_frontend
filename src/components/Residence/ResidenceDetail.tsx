@@ -4,7 +4,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../Common/TanStackTable';
-import { ChevronLeft, Plus } from 'lucide-react';
+import { ChevronLeft, PlusCircle, UserCheck, Power } from 'lucide-react';
 import Swal from 'sweetalert2';
 import OccupantFormModal from './OccupantFormModal';
 
@@ -23,18 +23,18 @@ const ResidenceDetail = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const residence = location.state?.residence;
-  
+
   const [data, setData] = useState<Occupant[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [totalRecords, setTotalRecords] = useState<number>(0);
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   // State TanStack
   const [globalFilter, setGlobalFilter] = useState('');
   const [debouncedFilter, setDebouncedFilter] = useState('');
   const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0, 
+    pageIndex: 0,
     pageSize: 10,
   });
 
@@ -73,9 +73,9 @@ const ResidenceDetail = () => {
         if (!response.ok) throw new Error('Network response was not ok');
 
         const result = await response.json();
-        
+
         setData(result.data || []);
-        setTotalRecords(result.recordsFiltered || 0); 
+        setTotalRecords(result.recordsFiltered || 0);
 
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -166,8 +166,8 @@ const ResidenceDetail = () => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ 
-            move_out_date: moveOutDate || null 
+          body: JSON.stringify({
+            move_out_date: moveOutDate || null
           })
         });
 
@@ -193,7 +193,7 @@ const ResidenceDetail = () => {
     {
       accessorKey: 'nama_penghuni',
       header: 'Nama Penghuni',
-      cell: (info) => info.getValue() || '-', 
+      cell: (info) => info.getValue() || '-',
     },
     {
       accessorKey: 'occupant_type',
@@ -229,12 +229,12 @@ const ResidenceDetail = () => {
     {
       accessorKey: 'move_in_date',
       header: 'Tgl Masuk',
-      cell: (info) => info.getValue() || '-', 
+      cell: (info) => info.getValue() || '-',
     },
     {
       accessorKey: 'move_out_date',
       header: 'Tgl Keluar',
-      cell: (info) => info.getValue() || '-', 
+      cell: (info) => info.getValue() || '-',
     },
     {
       id: 'actions',
@@ -248,17 +248,19 @@ const ResidenceDetail = () => {
           return (
             <div className="flex items-center gap-2">
               {!isPrimary && (
-                <button 
+                <button
                   onClick={() => handleSetPrimary(row.original.id)}
                   className="bg-amber-50 text-amber-700 px-3 py-1 rounded border border-amber-200 hover:bg-amber-100 transition-colors text-xs font-semibold"
                 >
+                  <UserCheck size={14} />
                   Set Utama
                 </button>
               )}
-              <button 
+              <button
                 onClick={() => handleDeactivate(row.original.id)}
                 className="bg-red-50 text-red-700 px-3 py-1 rounded border border-red-200 hover:bg-red-100 transition-colors text-xs font-semibold"
               >
+                <Power size={14} />
                 Nonaktifkan
               </button>
             </div>
@@ -272,7 +274,7 @@ const ResidenceDetail = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-4">
-        <button 
+        <button
           onClick={() => navigate('/rumah')}
           className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-600"
         >
@@ -284,6 +286,9 @@ const ResidenceDetail = () => {
             <p className="text-blue-600 font-medium flex items-center gap-2 mt-1">
               <span className="bg-blue-100 px-2 py-0.5 rounded text-sm font-bold">No. {residence.house_number}</span>
               <span className="text-slate-500 text-sm italic">{residence.address}</span>
+              {!residence.is_active && (
+                <span className="bg-red-100 text-red-700 px-2 py-0.5 rounded text-xs font-bold uppercase">Non-Aktif</span>
+              )}
             </p>
           ) : (
             <p className="text-slate-500 text-sm italic">ID Rumah: {id}</p>
@@ -291,16 +296,18 @@ const ResidenceDetail = () => {
         </div>
       </div>
 
-      <div className="flex justify-end">
-        <button 
-          onClick={() => setIsModalOpen(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
-        >
-          <Plus size={20} />
-          Tambah Penghuni
-        </button>
-      </div>
-      
+      {!!residence?.is_active && (
+        <div className="flex justify-end">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center gap-2 shadow-sm"
+          >
+            <PlusCircle size={20} />
+            Tambah Penghuni
+          </button>
+        </div>
+      )}
+
       <TanStackTable
         data={data}
         columns={columns}
@@ -314,7 +321,7 @@ const ResidenceDetail = () => {
       />
 
       {id && (
-        <OccupantFormModal 
+        <OccupantFormModal
           isOpen={isModalOpen}
           residenceId={id}
           onClose={() => setIsModalOpen(false)}

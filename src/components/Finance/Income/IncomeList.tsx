@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import type { ColumnDef, PaginationState } from '@tanstack/react-table';
 import TanStackTable from '../../Common/TanStackTable';
-import { PlusCircle, Home, Receipt, Calendar } from 'lucide-react';
+import { PlusCircle, Home, Receipt, Calendar, RefreshCw } from 'lucide-react';
 import Swal from 'sweetalert2';
 import ManualEntryFormModal, { type ManualEntryFormData } from '../Shared/ManualEntryFormModal';
 
@@ -302,10 +302,11 @@ const IncomeList = () => {
               {(dateFrom || dateTo) && (
                    <button 
                       onClick={handleResetFilter}
-                      className="ml-2 text-xs text-red-500 hover:text-red-700 font-medium px-2 py-1 hover:bg-red-50 rounded transition-colors"
-                   >
-                      Reset
-                   </button>
+                      className="ml-2 text-xs text-red-500 hover:text-red-700 font-medium px-2 py-1 hover:bg-red-50 rounded transition-colors flex items-center gap-1"
+                    >
+                       <RefreshCw size={12} />
+                       Reset
+                    </button>
               )}
           </div>
       </div>
