@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Jika Anda punya CSS tambahan untuk layout full screen, biarkan di bawah ini */
 html, body, #root {
   height: 100%;
   width: 100%;

@@ -30,7 +30,7 @@ function App() {
       // 2. Jika token ada, panggil API logout
       if (token) {
         await fetch(`${apiUrl}`, {
-          method: 'POST', // Endpoint logout biasanya menggunakan POST
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
