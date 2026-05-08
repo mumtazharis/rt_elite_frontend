@@ -66,6 +66,7 @@ const FeeList = () => {
     name: '',
     amount: '',
     due_date: new Date().toISOString().split('T')[0],
+    residence_ids: [],
   });
 
   // Debounce Pencarian
@@ -129,6 +130,7 @@ const FeeList = () => {
       name: '',
       amount: '',
       due_date: new Date().toISOString().split('T')[0],
+      residence_ids: [],
     });
     setFormModal({
       isOpen: true,
@@ -145,6 +147,7 @@ const FeeList = () => {
       name: fee.name,
       amount: fee.amount,
       due_date: formatDateForInput(fee.due_date),
+      residence_ids: [], // Not used for edit, but required by type
     });
     setFormModal({
       isOpen: true,

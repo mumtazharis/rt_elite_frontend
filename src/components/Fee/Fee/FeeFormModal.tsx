@@ -1,11 +1,19 @@
 // src/components/Fee/Fee/FeeFormModal.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from "lucide-react";
+import { AsyncPaginate } from 'react-select-async-paginate';
+import Cookies from 'js-cookie';
 
 export interface FeeFormData {
   name: string;
   amount: number | string;
   due_date: string;
+  residence_ids: number[];
+}
+
+interface ResidenceOption {
+  value: number;
+  label: string;
 }
 
 interface FeeFormModalProps {
@@ -31,6 +39,51 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
   onSubmit,
   setFormData
 }) => {
+  const [selectedResidences, setSelectedResidences] = useState<ResidenceOption[]>([]);
+
+  // Reset selectedResidences when modal opens/closes or formData changes
+  useEffect(() => {
+    if (!isOpen) {
+      setSelectedResidences([]);
+    }
+  }, [isOpen]);
+
+  const loadResidenceOptions = async (search: string, _prevOptions: any, { page }: any) => {
+    try {
+      const token = Cookies.get('access_token');
+      const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+      const response = await fetch(`${apiUrl}/api/residences/select?q=${search}&page=${page}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      const result = await response.json();
+
+      return {
+        options: result.data,
+        hasMore: result.has_more,
+        additional: {
+          page: page + 1,
+        },
+      };
+    } catch (error) {
+      console.error("Error loading residences:", error);
+      return {
+        options: [],
+        hasMore: false,
+      };
+    }
+  };
+
+  const handleResidenceChange = (selectedOptions: any) => {
+    const options = selectedOptions as ResidenceOption[] || [];
+    setSelectedResidences(options);
+    setFormData(prev => ({
+      ...prev,
+      residence_ids: options.map(opt => opt.value)
+    }));
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -69,6 +122,44 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                 </div>
               )}
 
+              {mode !== 'edit' && (
+                <>
+                  <div className="space-y-1">
+                    <label className="text-sm font-semibold text-slate-700">Tujuan Tagihan (Rumah)</label>
+                    <AsyncPaginate
+                      isMulti
+                      value={selectedResidences}
+                      loadOptions={loadResidenceOptions}
+                      onChange={handleResidenceChange}
+                      additional={{ page: 1 }}
+                      placeholder="Semua Rumah (Kosongkan jika semua)"
+                      noOptionsMessage={() => "Tidak ada rumah ditemukan"}
+                      className="text-sm"
+                      classNames={{
+                        control: (state) => 
+                          `border-slate-300 rounded-md shadow-sm transition-all ${
+                            state.isFocused ? 'border-teal-500 ring-1 ring-teal-500' : 'hover:border-slate-400'
+                          }`,
+                        option: (state) =>
+                          `cursor-pointer px-3 py-2 ${
+                            state.isSelected 
+                              ? 'bg-teal-600 text-white' 
+                              : state.isFocused 
+                                ? 'bg-teal-50 text-teal-900' 
+                                : 'text-slate-700 hover:bg-slate-50'
+                          }`,
+                        multiValue: () => 'bg-teal-100 rounded-md m-1',
+                        multiValueLabel: () => 'text-teal-800 text-xs px-2 py-1',
+                        multiValueRemove: () => 'text-teal-600 hover:bg-teal-200 hover:text-teal-900 px-1 rounded-r-md cursor-pointer transition-colors',
+                      }}
+                    />
+                  </div>
+                  <div className="bg-teal-50 p-3 rounded-md text-xs text-teal-700 italic">
+                    * Kosongkan pilihan rumah jika ingin membuat tagihan untuk <strong>semua</strong> rumah yang memiliki penghuni aktif.
+                  </div>
+                </>
+              )}
+
               <div className="space-y-1">
                 <label className="text-sm font-semibold text-slate-700">Nama Tagihan</label>
                 <input 
@@ -103,12 +194,6 @@ const FeeFormModal: React.FC<FeeFormModalProps> = ({
                   required
                 />
               </div>
-
-              {mode !== 'edit' && (
-                <div className="bg-teal-50 p-3 rounded-md text-xs text-teal-700 italic">
-                  * Tagihan akan langsung dibuat untuk seluruh rumah yang memiliki penghuni aktif.
-                </div>
-              )}
             </form>
           )}
         </div>
