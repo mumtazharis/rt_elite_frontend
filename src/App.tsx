@@ -102,7 +102,6 @@ function App() {
 
               if (newToken) {
                 Cookies.set('access_token', newToken, { 
-                  expires: 1 / 24, // 1 jam
                   sameSite: 'Lax'
                 });
                 isRefreshing = false;

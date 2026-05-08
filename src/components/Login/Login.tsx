@@ -36,7 +36,6 @@ const Login = ({ onLoginSuccess }: LoginProps) => {
       }
 
       Cookies.set('access_token', data.access_token, { 
-        expires: 1 / 24, 
         sameSite: 'Lax'
       });
 
