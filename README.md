@@ -10,10 +10,8 @@ Pastikan sistem Anda memenuhi persyaratan berikut sebelum menjalankan aplikasi:
 
 ## Langkah-langkah Menjalankan Project
 
-1. Lakukan clone `git clone https://github.com/mumtazharis/rt_elite_frontend` kemudian masuk ke direktori:
-   `cd rt_elite_frontend`
-2. Pastikan Anda berada di direktori frontend:
-   `cd frontend/rt_elite_frontend`
+1. Lakukan clone `git clone https://github.com/mumtazharis/rt_elite_frontend`
+2. Masuk ke direktori project: `cd rt_elite_frontend`
 3. Instal dependensi Node.js dengan menjalankan perintah:
    `npm install`
 4. Buat file `.env` di dalam root direktori frontend dan tambahkan baris berikut agar frontend dapat terhubung dengan API backend (sesuaikan `http://127.0.0.1:8000`):
